@@ -18,8 +18,9 @@ RUN ARCHITECTURE=linux_x64                                                      
     )"                                                                                        && \
     _BIN_DUPLICACY=/usr/local/bin/duplicacy                                                   && \
     _BIN_DUPLICACY_WEB=/usr/local/bin/duplicacy_web                                           && \
-    _DIR_BASE=~/.duplicacy-web                                                                && \
+    _DIR_WEB=~/.duplicacy-web                                                                 && \
     _DIR_CONF=/etc/duplicacy                                                                  && \
+    _DIR_CACHE=/var/cache/duplicacy                                                           && \
                                                                                                  \
     # add ca-certificates so Duplicacy doesn't complain
     apk update                                                                                && \
@@ -35,30 +36,29 @@ RUN ARCHITECTURE=linux_x64                                                      
     echo "${SHA256_DUPLICACY_WEB}  ${_BIN_DUPLICACY_WEB}" | sha256sum -s -c -                 && \
     chmod +x $_BIN_DUPLICACY_WEB                                                              && \
                                                                                                  \
-    # duplicacy_web expects to find the CLI binary in a certain location
-    # https://forum.duplicacy.com/t/run-web-ui-in-a-docker-container/1505/2
-    mkdir -p ${_DIR_BASE}/bin                                                                 && \
-    ln -s $_BIN_DUPLICACY ${_DIR_BASE}/bin/duplicacy_${ARCHITECTURE}_${VERSION_DUPLICACY}     && \
-                                                                                                 \
     # create some dirs
     mkdir -p                                                                                     \
-      /var/cache/duplicacy/repositories                                                          \
-      /var/cache/duplicacy/stats                                                                 \
+      ${_DIR_CACHE}/repositories                                                                 \
+      ${_DIR_CACHE}/stats                                                                        \
+      ${_DIR_WEB}/bin                                                                            \
       ${_DIR_CONF}/filters                                                                    && \
+                                                                                                 \
+    # duplicacy_web expects to find the CLI binary in a certain location
+    # https://forum.duplicacy.com/t/run-web-ui-in-a-docker-container/1505/2
+    ln -s $_BIN_DUPLICACY ${_DIR_WEB}/bin/duplicacy_${ARCHITECTURE}_${VERSION_DUPLICACY}      && \
                                                                                                  \
     # redirect the log to stdout
     ln -s /dev/stdout /var/log/duplicacy_web.log                                              && \
                                                                                                  \
-    # link up the volume data
-    ln -s ${_DIR_CONF}/settings.json  ${_DIR_BASE}/settings.json                              && \
-    ln -s ${_DIR_CONF}/duplicacy.json ${_DIR_BASE}/duplicacy.json                             && \
-    ln -s ${_DIR_CONF}/filters        ${_DIR_BASE}/filters                                    && \
-    ln -s /var/cache/duplicacy/stats  ${_DIR_BASE}/stats
+    # stage the rest of the web directory
+    ln -s ${_DIR_CONF}/settings.json  ${_DIR_WEB}/settings.json                               && \
+    ln -s ${_DIR_CONF}/duplicacy.json ${_DIR_WEB}/duplicacy.json                              && \
+    ln -s ${_DIR_CONF}/filters        ${_DIR_WEB}/filters                                     && \
+    ln -s ${_DIR_CACHE}/stats         ${_DIR_WEB}/stats
 
 EXPOSE 3875
 ENTRYPOINT [ "/usr/local/bin/duplicacy_web" ]
 
-# add initial config
 COPY ./files/ /
 
 VOLUME ["/var/cache/duplicacy", "/etc/duplicacy"]
