@@ -40,8 +40,7 @@ RUN ARCHITECTURE=linux_x64                                                      
     mkdir -p                                                                                     \
       ${_DIR_CACHE}/repositories                                                                 \
       ${_DIR_CACHE}/stats                                                                        \
-      ${_DIR_WEB}/bin                                                                            \
-      ${_DIR_CONF}/filters                                                                    && \
+      ${_DIR_WEB}/bin                                                                         && \
                                                                                                  \
     # duplicacy_web expects to find the CLI binary in a certain location
     # https://forum.duplicacy.com/t/run-web-ui-in-a-docker-container/1505/2
@@ -53,12 +52,13 @@ RUN ARCHITECTURE=linux_x64                                                      
     # stage the rest of the web directory
     ln -s ${_DIR_CONF}/settings.json  ${_DIR_WEB}/settings.json                               && \
     ln -s ${_DIR_CONF}/duplicacy.json ${_DIR_WEB}/duplicacy.json                              && \
+    ln -s ${_DIR_CONF}/licenses.json  ${_DIR_WEB}/licenses.json                               && \
     ln -s ${_DIR_CONF}/filters        ${_DIR_WEB}/filters                                     && \
     ln -s ${_DIR_CACHE}/stats         ${_DIR_WEB}/stats
 
 EXPOSE 3875
-ENTRYPOINT [ "/usr/local/bin/duplicacy_web" ]
+CMD [ "/usr/local/bin/entrypoint.sh" ]
 
-COPY ./files/ /
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 VOLUME ["/var/cache/duplicacy", "/etc/duplicacy"]
