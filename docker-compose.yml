@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  duplicacy:
+    image: erichough/duplicacy
+    restart: always
+    ports:
+      - 3875:3875
+    cap_drop:
+      - ALL
+    volumes:
+      - /host/path/to/config/dir:/etc/duplicacy
+      - /host/path/to/storage:/storage

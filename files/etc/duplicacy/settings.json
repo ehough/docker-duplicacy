@@ -1,0 +1,5 @@
+{
+  "listening_address"   : ":3875",
+  "temporary_directory" : "/var/cache/duplicacy/repositories",
+  "log_directory"       : "/var/log"
+}
