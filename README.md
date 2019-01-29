@@ -22,14 +22,14 @@
 
 Duplicacy identifies the machine via the hostname and [`machine-id`](https://www.freedesktop.org/software/systemd/man/machine-id.html) pair. So in order to utilize a license, you'll need to make sure that both of these pieces of data do not change over time.
 
-1. Add `--hostname` to your to your `docker-run` command to set a persistent hostname for the container.
+1. Add `--hostname` to your to your `docker run` command to set a persistent hostname for the container.
 1. Supply a persistent `machine-id`, which is a 32-character lowercase hexadecimal string.
 
    Here are a few ways to supply a `machine-id`; choose whichever your like:
   
-    1. **Option 1**. Bind-mount an existing `machine-id` into the container at `/var/lib/dbus/machine-id`. This would allow you to, for instance, reuse the `machind-id` of the Docker host.
+    1. **Option 1**. Bind-mount an existing `machine-id` into the container at `/var/lib/dbus/machine-id`.
     
-       e. g. `docker run -v /var/lib/dbus/machine-id:/var/lib/dbus-machine-id:ro ...`
+       e. g. `docker run -v /host/path/to/machine-id:/var/lib/dbus-machine-id:ro ...`
     1. **Option 2**. Supply the `MACHINE_ID` environment variable to the container. You can generate a random string using online tools ([example](https://www.browserling.com/tools/random-hex)).
     
        e.g. `docker run -e MACHINE_ID=b23c9e0140e92b10c2baaf1f82571a2f ...`
