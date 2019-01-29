@@ -27,12 +27,12 @@ RUN ARCHITECTURE=linux_x64                                                      
     apk add --no-cache ca-certificates                                                        && \
                                                                                                  \
     # download, check, and install duplicacy
-    wget --quiet -O $_BIN_DUPLICACY "$_URL_DUPLICACY"                                         && \
+    wget -O $_BIN_DUPLICACY "$_URL_DUPLICACY"                                                 && \
     echo "${SHA256_DUPLICACY}  ${_BIN_DUPLICACY}" | sha256sum -s -c -                         && \
     chmod +x $_BIN_DUPLICACY                                                                  && \
                                                                                                  \
     # downlooad, check, and install the web UI
-    wget --quiet -O $_BIN_DUPLICACY_WEB "$_URL_DUPLICACY_WEB"                                 && \
+    wget -O $_BIN_DUPLICACY_WEB "$_URL_DUPLICACY_WEB"                                         && \
     echo "${SHA256_DUPLICACY_WEB}  ${_BIN_DUPLICACY_WEB}" | sha256sum -s -c -                 && \
     chmod +x $_BIN_DUPLICACY_WEB                                                              && \
                                                                                                  \
@@ -40,7 +40,8 @@ RUN ARCHITECTURE=linux_x64                                                      
     mkdir -p                                                                                     \
       ${_DIR_CACHE}/repositories                                                                 \
       ${_DIR_CACHE}/stats                                                                        \
-      ${_DIR_WEB}/bin                                                                         && \
+      ${_DIR_WEB}/bin                                                                            \
+      /var/lib/dbus                                                                           && \
                                                                                                  \
     # duplicacy_web expects to find the CLI binary in a certain location
     # https://forum.duplicacy.com/t/run-web-ui-in-a-docker-container/1505/2
