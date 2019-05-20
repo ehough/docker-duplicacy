@@ -1,18 +1,17 @@
 # erichough/duplicacy
 
-[Duplicacy Web Edition](https://forum.duplicacy.com/t/duplicacy-web-edition-0-2-10-beta-is-now-available/1606/26) in a container.
+[Duplicacy Web Edition](https://forum.duplicacy.com/t/duplicacy-web-edition-1-0-0-is-now-available/2053/2) in a container.
 
-*This image is experimental and subject to change.*
-
-## Usage
+## Quick Start
 
 1. `docker run -p 3875:3875 erichough/duplicacy` 
 
 1. Visit [`http://localhost:3875`](http://localhost:3875)
 
-## Tips and tricks
+## Production Usage
 
 1. Bind-mount a host directory into the container at `/etc/duplicacy` to view, edit, and/or backup your configuration files (i.e. `duplicacy.json` and `settings.json`).
+1. Bind-mount a host directory into the container at `/var/cache/duplicacy` to retain statistics and cached data between container starts, stops, and restarts.
 1. Add `--cap-drop=ALL` for extra security.
 1. Add `--restart=always` to be able to make changes via the settings page.
 
@@ -57,5 +56,6 @@ services:
       MACHINE_ID: 4c601d79a045519397ade28a2f79e3d3
     volumes:
       - /host/path/to/config:/etc/duplicacy
+      - /host/path/to/cache:/var/cache/duplicacy
       - /host/path/to/some-storage:/storage
 ```

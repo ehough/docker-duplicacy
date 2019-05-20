@@ -9,4 +9,5 @@ services:
       - ALL
     volumes:
       - /host/path/to/config/dir:/etc/duplicacy
+      - /host/path/to/cache:/var/cache/duplicacy
       - /host/path/to/storage:/storage

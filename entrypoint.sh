@@ -61,8 +61,8 @@ stage_duplicacy_directory() {
   "log_directory"       : "/var/log"
 }' 'settings.json'
 
-  # make the filters directory, if it doesn't already exist
-  mkdir -p filters
+  # make the filters and stats directories, if they don't already exist
+  mkdir -p filters /var/cache/duplicacy/stats
 }
 
 start_duplicacy() {
