@@ -22,9 +22,11 @@ RUN ARCHITECTURE=linux_x64                                                      
     _DIR_CONF=/etc/duplicacy                                                                  && \
     _DIR_CACHE=/var/cache/duplicacy                                                           && \
                                                                                                  \
-    # add ca-certificates so Duplicacy doesn't complain
+    # add a few packages:
+    #  * ca-certificates - so Duplicacy doesn't complain about HTTPS
+    #  * tzdata          - so users can set timezone via TZ environment variable
     apk update                                                                                && \
-    apk add --no-cache ca-certificates                                                        && \
+    apk add --no-cache ca-certificates tzdata                                                 && \
                                                                                                  \
     # download, check, and install duplicacy
     wget -O $_BIN_DUPLICACY "$_URL_DUPLICACY"                                                 && \

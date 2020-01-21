@@ -12,6 +12,20 @@
 
 1. Bind-mount a host directory into the container at `/etc/duplicacy` to view, edit, and/or backup your configuration files (i.e. `duplicacy.json` and `settings.json`).
 1. Bind-mount a host directory into the container at `/var/cache/duplicacy` to retain statistics and cached data between container starts, stops, and restarts.
+1. Set your container's timezone using one of the following techniques:
+   1. Set the `TZ` environment variable to your desired [timezone name](https://wikipedia.org/wiki/List_of_tz_database_time_zones#List).
+
+       `docker run -e TZ=America/LosAngeles ... erichough/duplicacy`
+
+   1. Bind-mount `/etc/localtime` and `/etc/timezone` into the container. e.g.
+
+      ```
+      docker run                             \
+        -v /etc/localtime:/etc/localtime:ro  \
+        -v /etc/timezone:/etc/timezone:ro    \
+        ...                                  \
+        erichough/duplicacy
+      ```
 1. Add `--cap-drop=ALL` for extra security.
 1. Add `--restart=always` to be able to make changes via the settings page.
 
@@ -53,6 +67,7 @@ services:
     cap_drop:
       - ALL
     environment:
+      TZ: America/New_York
       MACHINE_ID: 4c601d79a045519397ade28a2f79e3d3
     volumes:
       - /host/path/to/config:/etc/duplicacy
