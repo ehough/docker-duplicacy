@@ -21,10 +21,10 @@
 FROM alpine:latest
 
 RUN ARCHITECTURE=linux_x64                                                                    && \
-    SHA256_DUPLICACY=6b088e0a88a0ceb05336d863fffb563e4f6c35de2cdeac90bb606d019e4f5e4d         && \
-    SHA256_DUPLICACY_WEB=256d0164f2549428de0a527a757a0e1b5df33f85200884dbb5e85e6f01859a1c     && \
-    VERSION_DUPLICACY=2.3.0                                                                   && \
-    VERSION_DUPLICACY_WEB=1.1.0                                                               && \
+    SHA256_DUPLICACY=162ECB3EA14EE28B2DCCB3342F0446EAB3BB0154CC7CADFB794551E81EB56CDA         && \
+    SHA256_DUPLICACY_WEB=9381581171503788a9c31c60ea672bf0a0f3fc7d7537f83c24b318fef009b87f     && \
+    VERSION_DUPLICACY=2.4.0                                                                   && \
+    VERSION_DUPLICACY_WEB=1.2.1                                                               && \
                                                                                                  \
     # ------------------------------------------------------------------------------------------
                                                                                                  \
