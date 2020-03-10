@@ -1,10 +1,30 @@
+# Copyright (c) 2019-2020 Eric D. Hough <eric@tubepress.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 FROM alpine:latest
 
 RUN ARCHITECTURE=linux_x64                                                                    && \
-    SHA256_DUPLICACY=6b088e0a88a0ceb05336d863fffb563e4f6c35de2cdeac90bb606d019e4f5e4d         && \
-    SHA256_DUPLICACY_WEB=256d0164f2549428de0a527a757a0e1b5df33f85200884dbb5e85e6f01859a1c     && \
-    VERSION_DUPLICACY=2.3.0                                                                   && \
-    VERSION_DUPLICACY_WEB=1.1.0                                                               && \
+    SHA256_DUPLICACY=162ECB3EA14EE28B2DCCB3342F0446EAB3BB0154CC7CADFB794551E81EB56CDA         && \
+    SHA256_DUPLICACY_WEB=9381581171503788a9c31c60ea672bf0a0f3fc7d7537f83c24b318fef009b87f     && \
+    VERSION_DUPLICACY=2.4.0                                                                   && \
+    VERSION_DUPLICACY_WEB=1.2.1                                                               && \
                                                                                                  \
     # ------------------------------------------------------------------------------------------
                                                                                                  \
@@ -22,9 +42,11 @@ RUN ARCHITECTURE=linux_x64                                                      
     _DIR_CONF=/etc/duplicacy                                                                  && \
     _DIR_CACHE=/var/cache/duplicacy                                                           && \
                                                                                                  \
-    # add ca-certificates so Duplicacy doesn't complain
+    # add a few packages:
+    #  * ca-certificates - so Duplicacy doesn't complain about HTTPS
+    #  * tzdata          - so users can set timezone via TZ environment variable
     apk update                                                                                && \
-    apk add --no-cache ca-certificates                                                        && \
+    apk add --no-cache ca-certificates tzdata                                                 && \
                                                                                                  \
     # download, check, and install duplicacy
     wget -O $_BIN_DUPLICACY "$_URL_DUPLICACY"                                                 && \
